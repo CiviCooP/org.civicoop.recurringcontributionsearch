@@ -421,12 +421,12 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
 	private function setCycleIntervalList() {
 		// cycle intervals
     $cycle_intervals = array(
-      "1 month"  => E::ts('Montly'),
+      "1 month"  => E::ts('Monthly'),
       "2 month"  => E::ts('Every 2 months'),
-      "3 month"  => E::ts('Quartly'),
+      "3 month"  => E::ts('Every 3 months'),
       "4 month"  => E::ts('Every 4 months'),
       "5 month"  => E::ts('Every 5 months'),
-      "6 month"  => E::ts('Semi-annually'),
+      "6 month"  => E::ts('Every 6 months'),
       "7 month"  => E::ts('Every 7 months'),
       "8 month"  => E::ts('Every 8 months'),
       "9 month"  => E::ts('Every 9 months'),
