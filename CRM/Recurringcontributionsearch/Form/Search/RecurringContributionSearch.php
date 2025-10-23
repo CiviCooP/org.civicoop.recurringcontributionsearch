@@ -358,7 +358,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
         $result[$group['id']] = $group['title'];
       }
     }
-    catch (CiviCRM_API3_Exception $ex) {
+    catch (CRM_Core_Exception $ex) {
     }
     asort($result);
     return $result;
@@ -381,7 +381,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
         }
       }
     }
-    catch (CiviCRM_API3_Exception $ex) {
+    catch (CRM_Core_Exception $ex) {
     }
     asort($result);
     return $result;
@@ -403,7 +403,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
         $result[$campaign['id']] = $campaign['title'];
       }
     }
-    catch (CiviCRM_API3_Exception $ex) {
+    catch (CRM_Core_Exception $ex) {
     }
     asort($result);
     return $result;
