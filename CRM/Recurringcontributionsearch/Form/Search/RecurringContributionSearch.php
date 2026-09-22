@@ -20,36 +20,36 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
 
     $form->add('text', 'contact_name', ts('Name contains'), TRUE);
 		$form->add('select', 'cycle_interval', ts('Frequency'), $this->setCycleIntervalList(), FALSE,
-      array('id' => 'cycle_interval', 'multiple' => 'multiple', 'title' => ts('- select -'), 'class' => 'crm-select2'));
+      ['id' => 'cycle_interval', 'multiple' => 'multiple', 'title' => ts('- select -'), 'class' => 'crm-select2']);
 		$form->add('select', 'cycle_days', ts('Cycle day(s)'), $this->setCycleDayList(), FALSE,
-      array('id' => 'cycle_days', 'multiple' => 'multiple', 'title' => ts('- select -'), 'class' => 'crm-select2'));
+      ['id' => 'cycle_days', 'multiple' => 'multiple', 'title' => ts('- select -'), 'class' => 'crm-select2']);
     $form->add('select', 'campaign_ids', ts('Campaign(s)'), $this->setCampaignList(), FALSE,
-      array('id' => 'campaign_ids', 'multiple' => 'multiple', 'title' => ts('- select -'), 'class' => 'crm-select2'));
+      ['id' => 'campaign_ids', 'multiple' => 'multiple', 'title' => ts('- select -'), 'class' => 'crm-select2']);
     $form->add('select', 'group_ids', ts('Group(s)'), $this->setGroupList(), FALSE,
-      array('id' => 'group_ids', 'multiple' => 'multiple', 'title' => ts('- select -'), 'class' => 'crm-select2'));
+      ['id' => 'group_ids', 'multiple' => 'multiple', 'title' => ts('- select -'), 'class' => 'crm-select2']);
     $form->add('select', 'tag_ids', ts('Tag(s)'), $this->setTagList(), FALSE,
-      array('id' => 'tag_ids', 'multiple' => 'multiple', 'title' => ts('- select -'), 'class' => 'crm-select2'));
+      ['id' => 'tag_ids', 'multiple' => 'multiple', 'title' => ts('- select -'), 'class' => 'crm-select2']);
     $form->addDate('start_date_from', ts('Start Date from'), FALSE);
     $form->addDate('start_date_to', ts('... to'), FALSE);
     $form->addDate('end_date_from', ts('End Date from'), FALSE);
     $form->addDate('end_date_to', ts('... to'), FALSE);
-    $onlyActives = array(
+    $onlyActives = [
       '1' => ts('Only active recurring contributions'),
       '0' => ts('All recurring contributions'),
-    );
+    ];
     $form->addRadio('only_active', ts('Only active?'), $onlyActives, NULL, '<br />', TRUE);
 
     // Optionally define default search values
-    $form->setDefaults(array(
+    $form->setDefaults([
       'contact_name' => '',
       'only_active' => '1',
-    ));
+    ]);
 
     /**
      * if you are using the standard template, this array tells the template what elements
      * are part of the search criteria
      */
-    $form->assign('elements', array(
+    $form->assign('elements', [
       'contact_name',
       'campaign_ids',
       'cycle_interval',
@@ -60,7 +60,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
       'start_date_to',
       'end_date_from',
       'end_date_to',
-      'only_active',));
+      'only_active',]);
   }
 
   /**
@@ -85,7 +85,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
    */
   function &columns() {
     // return by reference
-    $columns = array(
+    $columns = [
       E::ts('Contact Id') => 'contact_id',
       E::ts('Name') => 'display_name',
       E::ts('Contact Type') => 'contact_type',
@@ -95,7 +95,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
       E::ts('Frequency') => 'frequency',
       E::ts('Start date') => 'start_date',
       E::ts('End date') => 'end_date',
-    );
+    ];
     return $columns;
   }
 
@@ -168,8 +168,8 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
    */
   function where($includeContactIDs = FALSE) {
     $where = '';
-    $this->_whereClauses = array('(contact_a.is_deleted = %1)');
-    $this->_whereParams = array(1 => array(0, 'Integer'));
+    $this->_whereClauses = ['(contact_a.is_deleted = %1)'];
+    $this->_whereParams = [1 => [0, 'Integer']];
     $this->_whereIndex = 1;
     $this->addContactNameWhereClause();
     $this->addCampaignWhereClauses();
@@ -194,7 +194,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
       foreach ($this->_formValues['tag_ids'] as $tagId) {
         $this->_whereIndex++;
         $tagIds[] = '%'.$this->_whereIndex;
-        $this->_whereParams[$this->_whereIndex] = array($tagId, 'Integer');
+        $this->_whereParams[$this->_whereIndex] = [$tagId, 'Integer'];
       }
       if (!empty($tagIds)) {
         $this->_whereClauses[] = '(et.tag_id IN('.implode(', ', $tagIds).'))';
@@ -210,7 +210,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
       foreach ($this->_formValues['group_ids'] as $groupId) {
         $this->_whereIndex++;
         $groupIds[] = '%'.$this->_whereIndex;
-        $this->_whereParams[$this->_whereIndex] = array($groupId, 'Integer');
+        $this->_whereParams[$this->_whereIndex] = [$groupId, 'Integer'];
       }
       if (!empty($groupIds)) {
         $this->_whereClauses[] = '(gc.group_id IN('.implode(', ', $groupIds).'))';
@@ -223,7 +223,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
       foreach ($this->_formValues['cycle_days'] as $cycleDay) {
         $this->_whereIndex++;
         $cycleDays[] = '%'.$this->_whereIndex;
-        $this->_whereParams[$this->_whereIndex] = array($cycleDay, 'Integer');
+        $this->_whereParams[$this->_whereIndex] = [$cycleDay, 'Integer'];
       }
       if (!empty($cycleDays)) {
         $this->_whereClauses[] = '(contribution_recur.cycle_day IN('.implode(', ', $cycleDays).'))';
@@ -237,14 +237,14 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
     	if (in_array("'12 month'", $cycle_intervals)) {
       	$cycle_intervals[] = "'1 year'"; // the database could have both: '1 year' and '12 month'...
     	}
-			$ors = array();
+			$ors = [];
 			foreach($cycle_intervals as $interval) {
 				$splitted_interval = explode(" ", $interval);
 				$this->_whereIndex++;
 				$or = '(contribution_recur.frequency_interval = %'.$this->_whereIndex.' AND contribution_recur.frequency_unit = %'.($this->_whereIndex+1).')';
 				$ors[] = $or;
-				$this->_whereParams[$this->_whereIndex] = array($splitted_interval[0], 'Integer');
-				$this->_whereParams[$this->_whereIndex+1] = array($splitted_interval[1], 'String');
+				$this->_whereParams[$this->_whereIndex] = [$splitted_interval[0], 'Integer'];
+				$this->_whereParams[$this->_whereIndex+1] = [$splitted_interval[1], 'String'];
 				$this->_whereIndex++;
 			}
 			$this->_whereClauses[] = implode(' OR ', $ors);
@@ -268,13 +268,13 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
       $startDateFrom = new DateTime($this->_formValues['start_date_from']);
       $this->_whereIndex++;
       $this->_whereClauses[] = '(contribution_recur.start_date >= %'.$this->_whereIndex. ')';
-      $this->_whereParams[$this->_whereIndex] = array($startDateFrom->format('Y-m-d h:i:s'), 'String');
+      $this->_whereParams[$this->_whereIndex] = [$startDateFrom->format('Y-m-d h:i:s'), 'String'];
     }
     if (isset($this->_formValues['start_date_to']) && !empty($this->_formValues['start_date_to'])) {
       $startDateTo = new DateTime($this->_formValues['start_date_to']);
       $this->_whereIndex++;
       $this->_whereClauses[] = '(contribution_recur.start_date <= %'.$this->_whereIndex. ')';
-      $this->_whereParams[$this->_whereIndex] = array($startDateTo->format('Y-m-d h:i:s'), 'String');
+      $this->_whereParams[$this->_whereIndex] = [$startDateTo->format('Y-m-d h:i:s'), 'String'];
     }
   }
 
@@ -286,13 +286,13 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
       $endDateFrom = new DateTime($this->_formValues['end_date_from']);
       $this->_whereIndex++;
       $this->_whereClauses[] = '(contribution_recur.end_date >= %'.$this->_whereIndex. ')';
-      $this->_whereParams[$this->_whereIndex] = array($endDateFrom->format('Y-m-d h:i:s'), 'String');
+      $this->_whereParams[$this->_whereIndex] = [$endDateFrom->format('Y-m-d h:i:s'), 'String'];
     }
     if (isset($this->_formValues['end_date_to']) && !empty($this->_formValues['end_date_to'])) {
       $endDateTo = new DateTime($this->_formValues['end_date_to']);
       $this->_whereIndex++;
       $this->_whereClauses[] = '(contribution_recur.end_date <= %'.$this->_whereIndex. ')';
-      $this->_whereParams[$this->_whereIndex] = array($endDateTo->format('Y-m-d h:i:s'), 'String');
+      $this->_whereParams[$this->_whereIndex] = [$endDateTo->format('Y-m-d h:i:s'), 'String'];
     }
   }
 	
@@ -304,7 +304,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
       foreach ($this->_formValues['campaign_ids'] as $campaignId) {
         $this->_whereIndex++;
         $campaignIds[] = '%'.$this->_whereIndex;
-        $this->_whereParams[$this->_whereIndex] = array($campaignId, 'Integer');
+        $this->_whereParams[$this->_whereIndex] = [$campaignId, 'Integer'];
       }
       if (!empty($campaignIds)) {
         $this->_whereClauses[] = '(contribution_recur.campaign_id IN('.implode(', ', $campaignIds).'))';
@@ -319,7 +319,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
     if (isset($this->_formValues['contact_name']) && !empty($this->_formValues['contact_name'])) {
       $this->_whereIndex++;
       $this->_whereClauses[] = '(contact_a.sort_name LIKE %'.$this->_whereIndex. ')';
-      $this->_whereParams[$this->_whereIndex] = array('%'.$this->_formValues['contact_name'].'%', 'String');
+      $this->_whereParams[$this->_whereIndex] = ['%'.$this->_formValues['contact_name'].'%', 'String'];
     }
   }
 
@@ -348,12 +348,12 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
    * @return array
    */
   private function setGroupList() {
-    $result = array();
+    $result = [];
     try {
-      $groups = civicrm_api3('Group', 'get', array(
+      $groups = civicrm_api3('Group', 'get', [
         'is_active' => 1,
-        'options' => array('limit' => 0,),
-      ));
+        'options' => ['limit' => 0,],
+      ]);
       foreach ($groups['values'] as $group) {
         $result[$group['id']] = $group['title'];
       }
@@ -370,11 +370,11 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
    * @return array
    */
   private function setTagList() {
-    $result = array();
+    $result = [];
     try {
-      $tags = civicrm_api3('Tag', 'get', array(
-        'options' => array('limit' => 0,),
-      ));
+      $tags = civicrm_api3('Tag', 'get', [
+        'options' => ['limit' => 0,],
+      ]);
       foreach ($tags['values'] as $tag) {
         if (strpos($tag['used_for'], 'civicrm_contact') !== FALSE) {
           $result[$tag['id']] = $tag['name'];
@@ -393,12 +393,12 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
    * @return array
    */
   private function setCampaignList() {
-    $result = array();
+    $result = [];
     try {
-      $campaigns = civicrm_api3('Campaign', 'get', array(
+      $campaigns = civicrm_api3('Campaign', 'get', [
         'is_active' => 1,
-        'options' => array('limit' => 0,),
-      ));
+        'options' => ['limit' => 0,],
+      ]);
       foreach ($campaigns['values'] as $campaign) {
         $result[$campaign['id']] = $campaign['title'];
       }
@@ -411,7 +411,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
 	
 	private function setCycleDayList() {
 		// cycle days
-    $cycle_days = array();
+    $cycle_days = [];
     for ($i=1; $i <= 31; $i++) {
       $cycle_days[(string) $i] = (string) $i;  
     }
@@ -420,7 +420,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
 	
 	private function setCycleIntervalList() {
 		// cycle intervals
-    $cycle_intervals = array(
+    $cycle_intervals = [
       "1 month"  => E::ts('Monthly'),
       "2 month"  => E::ts('Every 2 months'),
       "3 month"  => E::ts('Every 3 months'),
@@ -433,7 +433,7 @@ class CRM_Recurringcontributionsearch_Form_Search_RecurringContributionSearch ex
       "10 month"  => E::ts('Every 10 months'),
       "11 month"  => E::ts('Every 11 months'),
       "12 month" => E::ts('Annually')
-    );
+    ];
 		return $cycle_intervals;
 	}
 }
